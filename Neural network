@@ -1,4 +1,3 @@
-
 #Bibliotek
 
 import tensorflow as tf
@@ -14,6 +13,15 @@ from keras.models import Sequential
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
-## två dimensionell fält/tabell av gråskalsvalutan på bilden, värden från 0-255 där 0 är svart och 255 är vit
+## x = två dimensionell fält/tabell av gråskalsvalutan på bilden, värden från 0-255 där 0 är svart och 255 är vit
+## y = namn/benämning/märkning på data
 
 print(x_train[0])
+
+x_train.shape
+
+## omvandling av 2d fältet till 1d så att den kan användas i input lagret 
+
+x_train_1d = x_train.reshape(len(x_train),28*28)
+
+x_test_1d = x_test.reshape(len(x_train),28*28)
