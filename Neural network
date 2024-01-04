@@ -1,6 +1,19 @@
-import os
+
+#Bibliotek
+
+import tensorflow as tf
 import numpy as np
 import keras
 from keras import layers
 from tensorflow import data as tf_data
-import matplotlib.pyplot as plt
+
+
+
+from keras.models import Sequential
+#Dataset
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+
+## två dimensionell fält/tabell av gråskalsvalutan på bilden, värden från 0-255 där 0 är svart och 255 är vit
+
+print(x_train[0])
