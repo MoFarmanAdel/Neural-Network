@@ -5,6 +5,10 @@ import numpy as np
 import keras
 from keras import layers
 from tensorflow import data as tf_data
+from keras.models import Sequential
+from keras.datasets import mnist
+import matplotlib.pyplot as plt
+import seaborn as sn
 
 
 
@@ -28,17 +32,30 @@ x_test = x_test / 255
 
 ## omvandling av 2d fältet till 1d så att den kan användas i input lagret 
 
-x_train_1d = x_train.reshape(len(x_train),28*28)
+x_train_1d = x_train.reshape(len(x_train), 28*28)
 
-x_test_1d = x_test.reshape(len(x_train),28*28)
-neuralnetworkmodel = keras.sequential([
-  keras.layers.Dense(10,Input_shape=(784,), activation = "sigmoid")
+x_test_1d = x_test.reshape(len(x_test), 28*28)
+neuralnetworkmodel = keras.Sequential([
+  keras.layers.Dense(10,input_shape=(784, ), activation="sigmoid")
 ])
 neuralnetworkmodel.compile(optimizer="adam", 
 loss = "sparse_categorical_crossentropy", 
 metrics=["accuracy"]
 )
 
-## Själva träningen sker här 
+#träning 
 
 neuralnetworkmodel.fit(x_train_1d, y_train, epochs = 5)
+
+#datasamling och infografik
+
+y_predicted = neuralnetworkmodel.predict(x_test_1d)
+y_predicted_labels = [np.argmax(i) for i in y_predicted ]
+visualmatrix = tf.math.confusion_matrix(labels=y_test, predictions=y_predicted_labels)
+
+
+plt.figure(figsize = (10,7))
+sn.heatmap(visualmatrix, annot= True, fmt="d")
+plt.xlabel("Predicted")
+plt.ylabel("Truth")
+plt.show()
