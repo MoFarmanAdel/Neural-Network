@@ -20,12 +20,25 @@ print(x_train[0])
 
 x_train.shape
 
+
+## Värdena ligger mellan 0-255, vill skala så att de är 0-1 så att man får en riktigt valuta på % precision 
+
+x_train = x_train / 255 
+x_test = x_test / 255 
+
 ## omvandling av 2d fältet till 1d så att den kan användas i input lagret 
 
 x_train_1d = x_train.reshape(len(x_train),28*28)
 
 x_test_1d = x_test.reshape(len(x_train),28*28)
-
-neuralnetworkmodel = Keras.sequential([
-  Keras.layers.Dense(10,Input_shape(784,), activation = "sigmoid")
+neuralnetworkmodel = keras.sequential([
+  keras.layers.Dense(10,Input_shape=(784,), activation = "sigmoid")
 ])
+neuralnetworkmodel.compile(optimizer="adam", 
+loss = "sparse_categorical_crossentropy", 
+metrics=["accuracy"]
+)
+
+## Själva träningen sker här 
+
+neuralnetworkmodel.fit(x_train_1d, y_train, epochs = 5)
